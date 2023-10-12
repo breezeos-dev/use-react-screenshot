@@ -1,4 +1,7 @@
-dist
+dist/index.es.js
+dist/index.es.js.map
+dist/index.js
+dist/index.js.map
 docs
 example
 .github
