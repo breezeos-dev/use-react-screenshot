@@ -14,18 +14,19 @@ import html2canvas from 'html2canvas'
  * hook for creating screenshot from html node
  * @returns {HookReturn}
  */
-const useScreenshot = ({ type, quality } = {}) => {
+function useScreenshot({ type, quality } = {}) {
   const [image, setImage] = useState(null)
   const [error, setError] = useState(null)
   /**
    * convert html node to image
    * @param {HTMLElement} node
+   * @param {Partial<import('html2canvas').Options>} options
    */
-  const takeScreenShot = (node) => {
+  const takeScreenShot = (node, options = {}) => {
     if (!node) {
       throw new Error('You should provide correct html node.')
     }
-    return html2canvas(node)
+    return html2canvas(node, options)
       .then((canvas) => {
         const croppedCanvas = document.createElement('canvas')
         const croppedCanvasContext = croppedCanvas.getContext('2d')
@@ -64,9 +65,9 @@ const useScreenshot = ({ type, quality } = {}) => {
 /**
  * creates name of file
  * @param {string} extension
- * @param  {string[]} parts of file name
+ * @param {string[]} parts of file name
  */
-const createFileName = (extension = '', ...names) => {
+function createFileName(extension = '', ...names) {
   if (!extension) {
     return ''
   }
