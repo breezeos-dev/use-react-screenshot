@@ -1,28 +1,18 @@
 import { useState } from 'react'
 import html2canvas from 'html2canvas'
+import { UseScreenshotState } from './types'
 
-/**
- * @module Main_Hook
- * Hook return
- * @typedef {Array} HookReturn
- * @property {string} HookReturn[0] - image string
- * @property {string} HookReturn[1] - take screen shot string
- * @property {object} HookReturn[2] - errors
- */
+const useScreenshot: UseScreenshotState = ({ type, quality } = {}) => {
+  const [image, setImage] = useState<string | undefined>(undefined)
+  const [error, setError] = useState<string | undefined>(undefined)
 
-/**
- * hook for creating screenshot from html node
- * @returns {HookReturn}
- */
-function useScreenshot({ type, quality } = {}) {
-  const [image, setImage] = useState(null)
-  const [error, setError] = useState(null)
-  /**
-   * convert html node to image
-   * @param {HTMLElement} node
-   * @param {Partial<import('html2canvas').Options>} options
-   */
-  const takeScreenShot = (node, options = {}) => {
+  const takeScreenShot = (
+    node?: HTMLElement,
+    options?: {
+      allowTaint?: boolean
+      useCORS?: boolean
+    },
+  ) => {
     if (!node) {
       throw new Error('You should provide correct html node.')
     }
@@ -30,7 +20,7 @@ function useScreenshot({ type, quality } = {}) {
       .then((canvas) => {
         const croppedCanvas = document.createElement('canvas')
         const croppedCanvasContext = croppedCanvas.getContext('2d')
-        // init data
+
         const cropPositionTop = 0
         const cropPositionLeft = 0
         const cropWidth = canvas.width
@@ -39,7 +29,7 @@ function useScreenshot({ type, quality } = {}) {
         croppedCanvas.width = cropWidth
         croppedCanvas.height = cropHeight
 
-        croppedCanvasContext.drawImage(
+        croppedCanvasContext?.drawImage(
           canvas,
           cropPositionLeft,
           cropPositionTop,
@@ -62,12 +52,7 @@ function useScreenshot({ type, quality } = {}) {
   ]
 }
 
-/**
- * creates name of file
- * @param {string} extension
- * @param {string[]} parts of file name
- */
-function createFileName(extension = '', ...names) {
+function createFileName(extension: string = '', ...names: string[]) {
   if (!extension) {
     return ''
   }

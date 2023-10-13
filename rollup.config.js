@@ -5,28 +5,34 @@ import resolve from 'rollup-plugin-node-resolve'
 import url from 'rollup-plugin-url'
 
 import pkg from './package.json'
+import typescript from 'rollup-plugin-typescript2'
 
 export default {
-  input: 'src/index.js',
+  input: 'src/index.ts',
   output: [
     {
       file: pkg.main,
       format: 'cjs',
-      sourcemap: true
+      exports: 'named',
+      sourcemap: true,
     },
     {
       file: pkg.module,
       format: 'es',
-      sourcemap: true
-    }
+      exports: 'named',
+      sourcemap: true,
+    },
   ],
   plugins: [
     external(),
     url({ exclude: ['**/*.svg'] }),
     babel({
-      exclude: 'node_modules/**'
+      exclude: 'node_modules/**',
     }),
     resolve(),
-    commonjs()
-  ]
+    typescript({
+      clean: true,
+    }),
+    commonjs(),
+  ],
 }
