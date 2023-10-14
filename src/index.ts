@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import html2canvas from 'html2canvas'
+import html2canvas, { Options } from 'html2canvas'
 import { UseScreenshotState } from './types'
 
 const useScreenshot: UseScreenshotState = ({ type, quality } = {}) => {
@@ -8,10 +8,7 @@ const useScreenshot: UseScreenshotState = ({ type, quality } = {}) => {
 
   const takeScreenShot = (
     node?: HTMLElement,
-    options?: {
-      allowTaint?: boolean
-      useCORS?: boolean
-    },
+    options?: Partial<Options>,
   ) => {
     if (!node) {
       throw new Error('You should provide correct html node.')
