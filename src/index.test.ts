@@ -23,11 +23,14 @@ describe('useScreenshot', () => {
     const {
       result: { current },
     } = renderHook(() => useScreenshot())
-    const [image, takeScreenShot, { error }] = current
+    const [image, takeScreenShot, isLoading, clear, { error }] = current
 
-    expect(error).toEqual(null)
-    expect(image).toEqual(null)
+    expect(error).toEqual(undefined)
+    expect(image).toEqual(undefined)
+    expect(isLoading).toEqual(true)
     await expect(() => takeScreenShot()).toThrow()
-    expect(error).toEqual(null)
+    expect(isLoading).toEqual(false)
+    expect(error).toEqual(undefined)
+    await expect(clear).toThrow()
   })
 })

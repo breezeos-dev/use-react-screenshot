@@ -3,16 +3,15 @@ import html2canvas, { Options } from 'html2canvas'
 import { UseScreenshotState } from './types'
 
 const useScreenshot: UseScreenshotState = ({ type, quality } = {}) => {
-  const [image, setImage] = useState<string | undefined>(undefined)
-  const [error, setError] = useState<string | undefined>(undefined)
+  const [image, setImage] = useState<string>()
+  const [error, setError] = useState<string>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const takeScreenShot = (
-    node?: HTMLElement,
-    options?: Partial<Options>,
-  ) => {
+  const takeScreenShot = (node?: HTMLElement, options?: Partial<Options>) => {
     if (!node) {
       throw new Error('You should provide correct html node.')
     }
+    setIsLoading(true)
     return html2canvas(node, options)
       .then((canvas) => {
         const croppedCanvas = document.createElement('canvas')
@@ -35,14 +34,19 @@ const useScreenshot: UseScreenshotState = ({ type, quality } = {}) => {
         const base64Image = croppedCanvas.toDataURL(type, quality)
 
         setImage(base64Image)
+        setIsLoading(false)
         return base64Image
       })
       .catch(setError)
   }
 
+  const clear = () => setImage(undefined);
+
   return [
     image,
     takeScreenShot,
+    isLoading,
+    clear,
     {
       error,
     },

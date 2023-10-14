@@ -1,6 +1,6 @@
 {
   "name": "@breezeos-dev/use-react-screenshot",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "hook which allows to create screenshots",
   "author": "vre2h",
   "license": "MIT",
@@ -76,9 +76,9 @@
     "typescript": "^5.2.2"
   },
   "bugs": {
-    "url": "https://github.com/breezeos/use-react-screenshot/issues"
+    "url": "https://github.com/breezeos-dev/use-react-screenshot/issues"
   },
-  "homepage": "https://github.com/breezeos/use-react-screenshot#readme",
+  "homepage": "https://github.com/breezeos-dev/use-react-screenshot#readme",
   "directories": {
     "doc": "docs",
     "example": "example"

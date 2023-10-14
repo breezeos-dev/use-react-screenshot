@@ -6,5 +6,7 @@ export type UseScreenshotState = (options?: {
 }) => [
   string | undefined,
   (node?: HTMLElement, options?: Partial<Options>) => Promise<string | void>,
+  boolean,
+  () => void,
   { error?: string },
 ]
